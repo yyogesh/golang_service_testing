@@ -31,7 +31,7 @@ func createTable(db *sql.DB) error {
 	   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	   is_admin BOOLEAN DEFAULT 0,
-	   profile_picture TEXT DEFAULT ''
+	   profile_picture TEXT
    )`)
 
 	return err
