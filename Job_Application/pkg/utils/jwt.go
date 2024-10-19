@@ -1,12 +1,13 @@
 package utils
 
 import (
+	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
 
-var jwtKey = []byte("secret")
+var jwtKey = []byte(os.Getenv("JWT_SECRET"))
 
 type Clamis struct {
 	Username string `json:"username"`
@@ -29,4 +30,18 @@ func GenerateToken(username string, userID int, isAdmin bool) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(jwtKey)
+}
+
+func ValidateToken(token string) (*Clamis, error) {
+	claims := &Clamis{}
+
+	tkn, err := jwt.ParseWithClaims(token, claims, func(t *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	if err != nil || !tkn.Valid {
+		return nil, err
+	}
+
+	return claims, nil
 }
