@@ -1,0 +1,12 @@
+POST http://localhost:8080/jobs
+content-type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV4YW1wbGVVc2VyMSIsInVzZXJfaWQiOjEsImlzX2FkbWluIjpmYWxzZSwiZXhwIjoxNzI5OTU0NTY2fQ.Gu7ZEDjs3xLskXWXaFTkKpMMXSfYOxTHzeU6oqjVByU
+
+{
+  "title": "Golang Developer 1",
+  "description": "Golang senior developer 1",
+  "company": "ABC",
+  "location": "Delhi",
+  "salary": "100,000",
+  "experience": 5
+}
