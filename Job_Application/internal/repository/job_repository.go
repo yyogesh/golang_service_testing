@@ -48,3 +48,32 @@ func CreateJob(db *sql.DB, job *models.Job) (*models.Job, error) {
 
 	return job, err
 }
+
+func GetJobById(db *sql.DB, id int) (*models.Job, error) {
+	job := &models.Job{}
+	err := db.QueryRow("SELECT * FROM jobs WHERE id = ?", id).Scan(&job.ID, &job.Title, &job.Description, &job.Company, &job.Location, &job.Salary, &job.Experience, &job.CreatedAt, &job.UserID)
+	if err != nil {
+		return nil, err
+	}
+	return job, nil
+}
+
+func UpdateJob(db *sql.DB, job *models.Job) (*models.Job, error) {
+	stmt, err := db.Prepare("UPDATE jobs SET title = ?, description = ?, company = ?, location = ?, salary = ?, experience = ? WHERE id = ?")
+	if err != nil {
+		return nil, err
+	}
+	_, err = stmt.Exec(job.Title, job.Description, job.Company, job.Location, job.Salary, job.Experience, job.ID)
+	if err != nil {
+		return nil, err
+	}
+	return job, nil
+}
+
+func DeleteJob(db *sql.DB, id int) error {
+	_, err := db.Exec("DELETE FROM jobs WHERE id = ?", id)
+	if err != nil {
+		return err
+	}
+	return nil
+}

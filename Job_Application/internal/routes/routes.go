@@ -27,11 +27,12 @@ func InitRoutes(r *gin.Engine, db *sql.DB) {
 		// r.GET("/jobs", handlers.GetUsersHandler(db))
 		authenticated.GET("/jobsByUser", handlers.GetUsersHandler(db))
 		authenticated.POST("/jobs", handlers.CreateJobHandler(db))
-		authenticated.PUT("/jobs/:id", handlers.GetUsersHandler(db))
-		authenticated.DELETE("/jobs/:id", handlers.GetUsersHandler(db))
+		authenticated.GET("/jobs/:id", handlers.GetJobByIdHandler(db))
+		authenticated.PUT("/jobs/:id", handlers.UpdateJobHandler(db))
+		authenticated.DELETE("/jobs/:id", handlers.DeleteJobHandler(db))
 
 		// Admin Routes
-		authenticated.GET("/admin/jobs", handlers.GetUsersHandler(db))
+		// authenticated.GET("/admin/jobs", handlers.GetUsersHandler(db))
 		authenticated.GET("/admin/jobs/:id", handlers.GetUsersHandler(db))
 		authenticated.GET("/admin/users", handlers.GetUsersHandler(db))
 
