@@ -44,7 +44,11 @@ func createTable(db *sql.DB) error {
 	   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	   user_id INTEGER,
 	   FOREIGN KEY (user_id) REFERENCES users(id)
-   );`)
+   );
+   
+   INSERT OR IGNORE INTO users(username, password, email, is_admin) 
+   VALUES('admin1', '$2a$10$hVVCCPFA6FyKqr5I93Bzwuk1Dx9Vn6naoYdncO0Yp3jURDe1BePu2', 'admin@gmail.com', true)
+   `)
 
 	return err
 }

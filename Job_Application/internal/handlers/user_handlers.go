@@ -112,3 +112,21 @@ func UpdateUserProfilePcitureHandler(db *sql.DB) gin.HandlerFunc {
 
 	}
 }
+
+func GetAllUserHandler(db *sql.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		isAdmin := c.GetBool("isAdmin")
+
+		if !isAdmin {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized to get all users"})
+			return
+		}
+
+		users, err := services.GetAllUsers(db)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, users)
+	}
+}

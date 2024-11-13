@@ -51,3 +51,31 @@ func UpdateUserProfilePicture(db *sql.DB, id int, profilePicture string) error {
 	}
 	return nil
 }
+
+func GetAllUsers(db *sql.DB) ([]*models.User, error) {
+	rows, err := db.Query("SELECT * FROM users")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []*models.User
+	for rows.Next() {
+		user := &models.User{}
+		err := rows.Scan(&user.ID, &user.Username, &user.Password, &user.Email, &user.Created_at, &user.Updated_at, &user.IsAdmin, &user.ProfilePicture)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
+}
+
+func UpdateUser(db *sql.DB, user *models.User) error {
+	_, err := db.Exec("UPDATE users SET password = ? WHERE id = ?", user.Password, user.ID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
